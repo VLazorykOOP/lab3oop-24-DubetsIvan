@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 class Vector {
 private:
@@ -10,8 +10,9 @@ public:
     static int numObjects; // Static variable to count the number of objects
 
     // Constructors
-    Vector() : data(nullptr), size(0), state(state_), state_(0) {
+    Vector() : data(new long[1]), size(1), state(state_), state_(0) {
         ++numObjects;
+        data[0] = 0;
     }
 
     Vector(int s) : data(new long[s]), size(s), state(state_), state_(0) {
@@ -150,21 +151,52 @@ private:
 int Vector::numObjects = 0;
 
 int main() {
-    int size;
-    std::cout << "Enter the size for vector v1: ";
-    std::cin >> size;
-    Vector v1(size); // Constructor with size parameter
-    std::cout << "Enter " << size << " elements for vector v1: ";
-    for (int i = 0; i < size; ++i) {
-        long value;
-        std::cin >> value;
-        v1.setElement(i, value);
-    }
-
+    Vector v1; // Default constructor
     std::cout << "Vector v1: ";
     v1.print();
 
-    // Similarly, input for other vectors can be added here
+    Vector v2(5); // Constructor with size parameter
+    std::cout << "Vector v2: ";
+    v2.print();
+
+    Vector v3(3, 10); // Constructor with size and value parameters
+    std::cout << "Vector v3: ";
+    v3.print();
+
+    Vector v4 = v3; // Copy constructor
+    std::cout << "Vector v4 (copy of v3): ";
+    v4.print();
+
+    Vector v5;
+    v5 = v2; // Assignment operator
+    std::cout << "Vector v5 (assigned v2): ";
+    v5.print();
+
+    // Accessing and setting elements
+    v2.setElement(2, 7);
+    std::cout << "Element at index 2 in v2: " << v2.getElement(2) << std::endl;
+
+    // Arithmetic operations
+    Vector v6 = v3 + v4;
+    std::cout << "Vector v6 (v3 + v4): ";
+    v6.print();
+
+    Vector v7 = v3 - v4;
+    std::cout << "Vector v7 (v3 - v4): ";
+    v7.print();
+
+    Vector v8 = v3 * 3;
+    std::cout << "Vector v8 (v3 * 3): ";
+    v8.print();
+
+    // Comparisons
+    std::cout << "Is v2 less than v3? " << (v2 < v3) << std::endl;
+    std::cout << "Are v3 and v4 equal? " << (v3 == v4) << std::endl;
+    std::cout << "Are v3 and v5 not equal? " << (v3 != v5) << std::endl;
+
+    // Error handling
+    v2.setElement(10); // This will set the state to indicate index out of bounds
+    std::cout << "State of v2 after setting element at index 10: " << v2.getState() << std::endl;
 
     std::cout << "Number of Vector objects created: " << Vector::getNumObjects() << std::endl;
 

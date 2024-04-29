@@ -4,12 +4,12 @@ class Vector {
 private:
     long* data;
     int size;
-    int& state; // Using reference to int to track state
+    int& state; // Посилання на int для відстеження стану
 
 public:
-    static int numObjects; // Static variable to count the number of objects
+    static int numObjects; // Статична змінна для підрахунку кількості об’єктів
 
-    // Constructors
+    // Конструктори 
     Vector() : data(nullptr), size(0), state(state_), state_(0) {
         ++numObjects;
     }
@@ -26,14 +26,13 @@ public:
             data[i] = value;
     }
 
-    // Copy constructor
     Vector(const Vector& other) : data(new long[other.size]), size(other.size), state(state_), state_(other.state) {
         ++numObjects;
         for (int i = 0; i < size; ++i)
             data[i] = other.data[i];
     }
 
-    // Assignment operator
+    // Оператор присвоювання
     Vector& operator=(const Vector& other) {
         if (this != &other) {
             delete[] data;
@@ -52,7 +51,7 @@ public:
         --numObjects;
     }
 
-    // Set element at index to a value
+    // Установлюєм елемент за індексом у значення
     void setElement(int index, long value = 0) {
         if (index >= 0 && index < size) {
             data[index] = value;
@@ -63,7 +62,7 @@ public:
         }
     }
 
-    // Get element at index
+    // Отримати елемент за індексом
     long getElement(int index) {
         if (index >= 0 && index < size) {
             state_ = 0; // Reset state after successful operation
@@ -75,14 +74,14 @@ public:
         }
     }
 
-    // Print vector elements
+    // Вивід елементів вектора
     void print() {
         for (int i = 0; i < size; ++i)
             std::cout << data[i] << " ";
         std::cout << std::endl;
     }
 
-    // Vector addition
+    // Вектор додавання
     Vector operator+(const Vector& other) {
         Vector result(std::max(size, other.size), 0);
         for (int i = 0; i < std::min(size, other.size); ++i)
@@ -90,7 +89,7 @@ public:
         return result;
     }
 
-    // Vector subtraction
+    // Векторне віднімання
     Vector operator-(const Vector& other) {
         Vector result(std::max(size, other.size), 0);
         for (int i = 0; i < std::min(size, other.size); ++i)
@@ -98,7 +97,7 @@ public:
         return result;
     }
 
-    // Vector multiplication by unsigned int
+    // Множення вектора на unsigned int
     Vector operator*(unsigned int scalar) {
         Vector result(size, 0);
         for (int i = 0; i < size; ++i)
@@ -106,12 +105,10 @@ public:
         return result;
     }
 
-    // Less than comparison
     bool operator<(const Vector& other) {
         return size < other.size;
     }
 
-    // Not equal to comparison
     bool operator!=(const Vector& other) {
         if (size != other.size)
             return true;
@@ -122,38 +119,37 @@ public:
         return false;
     }
 
-    // Equal to comparison
     bool operator==(const Vector& other) {
         return !(*this != other);
     }
 
-    // Accessor function for state
+    // Функція доступу до стану
     int getState() const {
         return state_;
     }
 
-    // Accessor function for size
+    // Функція доступу до розміру
     int getSize() const {
         return size;
     }
 
-    // Static function to get number of objects
+    // Статична функція для отримання кількості об’єктів
     static int getNumObjects() {
         return numObjects;
     }
 
 private:
-    int state_; // State variable for error tracking
+    int state_; // Змінна стану для відстеження помилок
 };
 
-// Initialize static member outside the class definition
+// Ініціалізація статичного член поза визначенням класу
 int Vector::numObjects = 0;
 
 int main() {
     int size;
     std::cout << "Enter the size for vector v1: ";
     std::cin >> size;
-    Vector v1(size); // Constructor with size parameter
+    Vector v1(size); // Конструктор з параметром size
     std::cout << "Enter " << size << " elements for vector v1: ";
     for (int i = 0; i < size; ++i) {
         long value;
@@ -164,7 +160,6 @@ int main() {
     std::cout << "Vector v1: ";
     v1.print();
 
-    // Similarly, input for other vectors can be added here
 
     std::cout << "Number of Vector objects created: " << Vector::getNumObjects() << std::endl;
 
